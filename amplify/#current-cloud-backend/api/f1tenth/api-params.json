@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/bracket",
+            "lambdaFunction": "bracket",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/bracket"
+        }
+    ],
+    "resourceName": "f1tenth",
+    "apiName": "f1tenth",
+    "functionArns": [
+        {
+            "lambdaFunction": "bracket"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-f1tenthbackend-staging-233412-authRole",
+        "unAuthRoleName": "amplify-f1tenthbackend-staging-233412-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "bracket",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
