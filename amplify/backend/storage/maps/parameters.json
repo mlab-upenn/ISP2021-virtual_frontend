@@ -1,0 +1,5 @@
+{
+    "tableName": "maps",
+    "partitionKeyName": "id",
+    "partitionKeyType": "S"
+}

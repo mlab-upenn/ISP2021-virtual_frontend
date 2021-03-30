@@ -7,6 +7,30 @@
                 "open": true
             },
             "policyResourceName": "/bracket"
+        },
+        {
+            "name": "/races",
+            "lambdaFunction": "races",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/races"
+        },
+        {
+            "name": "/teams",
+            "lambdaFunction": "teams",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/teams"
+        },
+        {
+            "name": "/maps",
+            "lambdaFunction": "maps",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/maps"
         }
     ],
     "resourceName": "f1tenth",
@@ -14,6 +38,15 @@
     "functionArns": [
         {
             "lambdaFunction": "bracket"
+        },
+        {
+            "lambdaFunction": "races"
+        },
+        {
+            "lambdaFunction": "teams"
+        },
+        {
+            "lambdaFunction": "maps"
         }
     ],
     "privacy": {
@@ -30,6 +63,31 @@
                 "Name",
                 "Arn"
             ]
+        },
+        {
+            "category": "function",
+            "resourceName": "races",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "teams",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "maps",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
         }
-    ]
+    ],
+    "uuid": "401e667c"
 }

@@ -1,0 +1,18 @@
+{
+  "lambdaLayers": [
+    {
+      "type": "ExternalLayer",
+      "arn": "arn:aws:lambda:us-east-1:216209261533:layer:utils-staging:11"
+    }
+  ],
+  "permissions": {
+    "storage": {
+      "races": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
+}

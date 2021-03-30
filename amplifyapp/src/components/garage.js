@@ -21,29 +21,26 @@ import {
 import Plus from 'baseui/icon/plus';
 import ChevronRight from 'baseui/icon/chevron-right';
 import ChevronDown from 'baseui/icon/chevron-down';
+import Delete from 'baseui/icon/delete';
 import { KIND } from 'baseui/button';
 
-const DATA = [
+let DATA = [
   {
-    team_id: 'team0',
     docker_hub_repo: 'team0/f1tenth:latest',
     status: 'queued',
     logs: 'Output logs will show up here',
   },
   {
-    team_id: 'team1',
     docker_hub_repo: 'team1/f1tenth:latest',
     status: 'running',
     logs: 'Output logs will show up here',
   },
   {
-    team_id: 'team2',
     docker_hub_repo: 'team2/f1tenth:latest',
     status: 'passed',
     logs: 'Output logs will show up here',
   },
   {
-    team_id: 'team3',
     docker_hub_repo: 'team3/f1tenth:latest',
     status: 'failed',
     logs: 'Output logs will show up here',
@@ -59,7 +56,7 @@ const Cell = withStyle(StyledBodyCell, {
 const InputRow = styled('div', {
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
   height: '35px',
   marginBottom: '5px',
 });
@@ -67,7 +64,10 @@ const InputRow = styled('div', {
 const DetailsPanel = ({logData}) => {
 
   return (
-    <div style={{gridColumn: 'span 4', padding: '20px'}}>
+    <div style={{
+        //boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        gridColumn: 'span 4',
+        padding: '20px'}}>
       {logData}
     </div>
   );
@@ -113,19 +113,19 @@ export default () => {
     <Card>
       <StyledBody>
         <InputRow>
+          <p style={{display: 'flex', alignItems: 'center'}}>Team 1</p>
           <Button startEnhancer={Plus} onClick={() => setModalOpen(true)}>
             Submit
           </Button>
         </InputRow>
         <StyledTable
           role="grid"
-          isLoading={true}
-          $gridTemplateColumns="max-content auto max-content max-content">
+          $gridTemplateColumns="auto max-content max-content max-content">
           <div role="row" className={css({display: 'contents'})}>
-            <StyledHeadCell>Team</StyledHeadCell>
             <StyledHeadCell>DockerHub Link</StyledHeadCell>
             <StyledHeadCell>Last Executed</StyledHeadCell>
             <StyledHeadCell>Evaluation</StyledHeadCell>
+            <StyledHeadCell>Actions</StyledHeadCell>
           </div>
 
           {DATA.map((row, index) => {
@@ -134,7 +134,7 @@ export default () => {
             const [expanded, setExpanded] = React.useState(false);
 
             return (
-            <div role="row" className={css({display: 'contents'})} key={index}>
+            <div role="row" key={index} className={css({display: 'contents'})} key={index}>
               <Cell $striped={striped}>
                 <Button
                   size={SIZE.compact}
@@ -148,9 +148,6 @@ export default () => {
                     <ChevronRight size={18} />
                   )}
                 </Button>
-                {row.team_id}
-              </Cell>
-              <Cell $striped={striped}>
                 {row.docker_hub_repo}
               </Cell>
               <Cell $striped={striped}>
@@ -169,6 +166,20 @@ export default () => {
                   >
                   {row.status}
                 </Tag>
+              </Cell>
+              <Cell $striped={striped}>
+                <Button
+                  size={SIZE.compact}
+                  kind={KIND.minimal}
+                  onClick={() => {
+                    //alert('Removing Image');
+                    DATA.splice(index, 1);
+                    console.log(DATA.length)
+                  }}
+                  shape={SHAPE.square}
+                  >
+                  <Delete size={18}/>
+                </Button>
               </Cell>
               {expanded && <DetailsPanel logData={row.logs} />}
             </div>

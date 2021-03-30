@@ -22,15 +22,17 @@ import {
   Route,
 } from "react-router-dom";
 
-import Bracket from './components/bracket';
-import Livestream from './components/livestream';
-import Schedule from './components/schedule';
-import Submission from './components/submission';
+import Garage from './components/garage';
+import Teams from './components/teams';
+import Race from './components/race';
+import Maps from './components/maps';
+import LogIn from './components/logIn';
 
 import f1logo from './f1_stickers_01.png';
 import './App.css';
 
 Amplify.configure(awsconfig);
+
 
 const engine = new Styletron();
 
@@ -47,7 +49,7 @@ function head() {
 
 
 const apiName = 'f1tenth';
-const path = '/bracket';
+const path = '/races';
 const myInit = { // OPTIONAL
     response: true,
     headers: {}, // OPTIONAL
@@ -55,36 +57,37 @@ const myInit = { // OPTIONAL
 
 const headers = [
   {
-    link: "/submission", title: "Submission", component: <Submission />,
+    link: "/garage", title: "Garage", component: <Garage />,
   },
   {
-    link: "/stream", title: "Livestream", component: <Livestream />,
+    link: "/teams", title: "Teams", component: <Teams />,
   },
   {
-    link: "/bracket", title: "Bracket", component: <Bracket />,
+    link: "/race", title: "Race", component: <Race />,
   },
   {
-    link: "/schedule", title: "Schedule", component: <Schedule />,
+    link: "/maps", title: "Maps", component: <Maps />,
   },
 ];
 
 export default function App() {
-  (async function () {
+
+
+  /*(async function () {
     const response = await head();
     console.log(response);
+    return response;
   })();
+  */
 
-  //const response = await API.get('f1tenth', '/bracket');
-  //console.log(response);
-  API.get(apiName, path, myInit).then(response => console.log(response));
   return (
     <StyletronProvider value={engine}>
       <BaseProvider theme={LightTheme}>
         <Router>
           <HeaderNavigation>
             <NavigationList $align={ALIGN.left}>
-              {headers.map(header => (
-                <NavigationItem>
+              {headers.map((header, index) => (
+                <NavigationItem key={index}>
                   <StyledLink href={header.link}>
                     {header.title}
                   </StyledLink>
@@ -94,6 +97,9 @@ export default function App() {
             <NavigationList />
             <NavigationList $align={ALIGN.right}>
               <NavigationItem>
+                <LogIn />
+              </NavigationItem>
+              <NavigationItem>
                 <StyledLink href="https://f1tenth.org/index.html">
                   <img src={f1logo} width="50px" alt='logo' style={{marginRight:"20px"}}/>
                 </StyledLink>
@@ -102,6 +108,10 @@ export default function App() {
           </HeaderNavigation>
 
           <Switch>
+            {//<Route path={'/'}>
+              //<h>Welcome!</h>
+            //</Route>
+            }
             {headers.map(header => (
               <Route path={header.link}>
                 {header.component}
@@ -116,9 +126,8 @@ export default function App() {
           width='100%'
           left='0'
           bottom='0'
-          height='80px'
+          height='40px'
           backgroundColor='primary200'>
-
         </Block>
       </BaseProvider>
     </StyletronProvider>

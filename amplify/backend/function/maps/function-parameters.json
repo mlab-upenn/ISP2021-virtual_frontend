@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "storage": {
+      "mapimages": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "maps": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ExternalLayer",
+      "arn": "arn:aws:lambda:us-east-1:216209261533:layer:utils-staging:11"
+    }
+  ]
+}
