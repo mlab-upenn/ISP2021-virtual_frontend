@@ -311,6 +311,42 @@
         }
       }
     },
+    "storageimages": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/images-cloudformation-template.json",
+        "Parameters": {
+          "tableName": "images",
+          "partitionKeyName": "id",
+          "partitionKeyType": "S",
+          "env": "staging"
+        }
+      }
+    },
+    "storageusers": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/users-cloudformation-template.json",
+        "Parameters": {
+          "tableName": "users",
+          "partitionKeyName": "id",
+          "partitionKeyType": "S",
+          "env": "staging"
+        }
+      }
+    },
+    "storageevaluations": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/evaluations-cloudformation-template.json",
+        "Parameters": {
+          "tableName": "evaluations",
+          "partitionKeyName": "id",
+          "partitionKeyType": "S",
+          "env": "staging"
+        }
+      }
+    },
     "authf1tenthbackend612b076d": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {

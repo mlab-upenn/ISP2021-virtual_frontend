@@ -7,7 +7,10 @@ import { Spinner } from 'baseui/spinner';
 import { Skeleton } from 'baseui/skeleton';
 
 import Amplify, { API, Storage } from 'aws-amplify';
-import awsconfig from '../aws-exports';
+
+// Socket IO
+import io from 'socket.io-client';
+const socket = io('http://54.157.123.175:8080/')
 
 
 const CenteredBody = withStyle(StyledBody, {
@@ -22,10 +25,38 @@ export default class extends React.Component {
     this.state = {
       maps: [],
       images: {},
+      frame: undefined,
     }
+
+
   }
 
+  //subscribeToFrameCallback(cb) {
+  //  socket.on('frame', frame => cb(null, frame));
+    //socket.emit('subscribeToFrameCallback', 1000);
+  //}
+
   async componentDidMount() {
+    socket.on('connect', () => {
+      console.log('connected');
+      //socket.emit('clientReady');
+    });
+
+    socket.on('frame', (data) => {
+      //console.log(resp);
+      console.log('frame received')
+      console.log(data)
+      const blob = new Blob([data.data], { type: "image/png" });
+      //var blob = new Blob( [ arrayBufferView ] );
+      const srcBlob = URL.createObjectURL(blob)
+      //const img = document.getElementById( 'img' );
+      //img.src = srcBlob;
+      console.log(srcBlob)
+      this.setState({frame: srcBlob});
+      //socket.emit('clientReady');
+    });
+
+    return;
     await API.get('f1tenth', '/maps').then(maps =>
       this.setState({maps: maps})
     );
@@ -39,16 +70,18 @@ export default class extends React.Component {
   }
 
   render() {
-    console.log(this.state.maps)
+    //console.log(this.state.maps)
     this.state.maps.map((map, index) => {
       console.log(index)
       console.log(this.state.images[map.id])
     })
+    //console.log("data:image/png;base64," + this.state.frame)
     return (
       <Card>
         <CenteredBody>
-          {this.state.maps.length == 0 ? (
-            <Spinner />
+
+          {this.state.maps.length == 0 && this.state.frame? (
+            <img src={this.state.frame} width='600px'/>
           ) : (
             <FlexGrid>
               {this.state.maps.map((map, index) => (

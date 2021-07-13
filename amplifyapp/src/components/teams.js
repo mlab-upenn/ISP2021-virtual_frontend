@@ -7,7 +7,7 @@ import { FlexGrid, FlexGridItem } from "baseui/flex-grid";
 import { Skeleton } from "baseui/skeleton";
 import { StyledLink } from "baseui/link";
 
-import Amplify, { API } from 'aws-amplify';
+import  { API, Storage } from 'aws-amplify';
 
 const CenteredBody = withStyle(StyledBody, {
   display: "flex",
@@ -26,12 +26,13 @@ const InputRow = styled("div", {
 });
 
 
-const RaceItem = ({team, race, teamNameMap}) => {
+const RaceItem = ({team, race, maps, teamNameMap, mapImages}) => {
   const team1Win = race.time_1 < race.time_2;
   const isWin = (team == race.team_1_id) ? team1Win : !team1Win;
   const backgroundColor = !race.is_done ? "mono300" : isWin ? "positive200" : "negative200";
+  const lineStyle = {width: "200px", display: "flex", justifyContent: "space-between", fontSize: "16px"}
 
-  const lineStyle = {width: "200px", display: "flex", justifyContent: "space-between", fontSize: "20px"}
+  console.log(maps)
   return (
     <FlexGridItem
       backgroundColor={backgroundColor}
@@ -53,8 +54,16 @@ const RaceItem = ({team, race, teamNameMap}) => {
           <div>{race.time_2}</div>
         </div>
       </div>
-      <StyledLink href="/maps">Map 1</StyledLink>
-      <Skeleton width="300px" height="150px" animation/>
+      <StyledLink href="/maps">{maps.get(race.map_id).name}</StyledLink>
+      {
+        mapImages[race.map_id] ? (
+          <img src={mapImages[race.map_id]}
+            style={{maxHeight: '100px', height: 'auto'}}/>
+        ) : (
+          <Skeleton width="200px" height="100px" animation/>
+        )
+      }
+
     </FlexGridItem>);
 };
 
@@ -64,7 +73,9 @@ export default class extends React.Component {
     this.state = {
       races: [],
       teams: [],
+      maps: [],
       selectedTeam: [],
+      mapImages: {},
     }
   }
 
@@ -75,6 +86,17 @@ export default class extends React.Component {
     await API.get('f1tenth', '/teams').then(teams =>
       this.setState({teams:  teams.sort((a, b) => a.name < b.name ? -1 : 1)}
     ));
+    let mapList;
+    await API.get('f1tenth', '/maps').then(maps => mapList = maps);
+    this.setState({maps: new Map(mapList.map(m => [m.id, m]))})
+
+    const raceMapIds = new Set(this.state.races.map(race => race.map_id));
+    await Promise.all([...raceMapIds].map(async (map_id) => {
+      const response = await Storage.get(this.state.maps.get(map_id).image_key, {download: true });
+      const mapImgs = this.state.mapImages;
+      mapImgs[map_id] = URL.createObjectURL(response.Body);
+      this.setState({mapImages: mapImgs});
+    }));
   }
 
   render() {
@@ -113,7 +135,9 @@ export default class extends React.Component {
                     key={i}
                     team={this.state.selectedTeam[0].id}
                     race={race}
-                    teamNameMap={teamNameMap}/>
+                    maps={this.state.maps}
+                    teamNameMap={teamNameMap}
+                    mapImages={this.state.mapImages}/>
                 ))}
               </FlexGrid>
             </Panel>
@@ -128,7 +152,9 @@ export default class extends React.Component {
                     key={i}
                     team={this.state.selectedTeam[0].id}
                     race={race}
-                    teamNameMap={teamNameMap}/>
+                    maps={this.state.maps}
+                    teamNameMap={teamNameMap}
+                    mapImages={this.state.mapImages}/>
                 ))}
               </FlexGrid>
             </Panel>

@@ -28,7 +28,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/function/bracket-cloudformation-template.json",
         "logicalId": "functionbracket"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.768Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.896Z",
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:216209261533:function:bracket-staging",
@@ -52,7 +52,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/function/races-cloudformation-template.json",
         "logicalId": "functionraces"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.784Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.908Z",
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:216209261533:function:races-staging",
@@ -167,7 +167,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/function/utils-awscloudformation-template.json",
         "logicalId": "functionutils"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.791Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.911Z",
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:216209261533:layer:utils-staging:11"
@@ -207,7 +207,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/function/teams-cloudformation-template.json",
         "logicalId": "functionteams"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.794Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.914Z",
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:216209261533:function:teams-staging",
@@ -248,7 +248,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/function/maps-cloudformation-template.json",
         "logicalId": "functionmaps"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.797Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.917Z",
       "output": {
         "Region": "us-east-1",
         "Arn": "arn:aws:lambda:us-east-1:216209261533:function:maps-staging",
@@ -300,7 +300,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/api/f1tenth-cloudformation-template.json",
         "logicalId": "apif1tenth"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.820Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.920Z",
       "output": {
         "ApiName": "f1tenth",
         "RootUrl": "https://2s2tvxfs9h.execute-api.us-east-1.amazonaws.com/staging",
@@ -317,7 +317,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/races-cloudformation-template.json",
         "logicalId": "storageraces"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.803Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.923Z",
       "output": {
         "PartitionKeyName": "id",
         "Region": "us-east-1",
@@ -335,7 +335,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/teams-cloudformation-template.json",
         "logicalId": "storageteams"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.806Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.926Z",
       "output": {
         "PartitionKeyName": "id",
         "Region": "us-east-1",
@@ -353,7 +353,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
         "logicalId": "storagemapimages"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.808Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.928Z",
       "output": {
         "BucketName": "mapimages233412-staging",
         "Region": "us-east-1"
@@ -367,7 +367,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/maps-cloudformation-template.json",
         "logicalId": "storagemaps"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.810Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.932Z",
       "output": {
         "PartitionKeyName": "id",
         "Region": "us-east-1",
@@ -377,6 +377,60 @@
         "Name": "maps-staging"
       },
       "lastPushDirHash": "BECmZM9/wo6ompIhPCt4HAu1k1U="
+    },
+    "images": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/images-cloudformation-template.json",
+        "logicalId": "storageimages"
+      },
+      "lastPushTimeStamp": "2021-04-02T23:13:39.934Z",
+      "output": {
+        "PartitionKeyName": "id",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:dynamodb:us-east-1:216209261533:table/images-staging",
+        "StreamArn": "arn:aws:dynamodb:us-east-1:216209261533:table/images-staging/stream/2021-04-02T19:45:10.440",
+        "PartitionKeyType": "S",
+        "Name": "images-staging"
+      },
+      "lastPushDirHash": "6p20b/D84ihXyIhwX9CACYMcrro="
+    },
+    "users": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/users-cloudformation-template.json",
+        "logicalId": "storageusers"
+      },
+      "lastPushTimeStamp": "2021-04-02T23:13:39.946Z",
+      "output": {
+        "PartitionKeyName": "id",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:dynamodb:us-east-1:216209261533:table/users-staging",
+        "StreamArn": "arn:aws:dynamodb:us-east-1:216209261533:table/users-staging/stream/2021-04-02T23:12:50.191",
+        "PartitionKeyType": "S",
+        "Name": "users-staging"
+      },
+      "lastPushDirHash": "27Qv3d6eCZTW2+byY3Y1Z8dYMAk="
+    },
+    "evaluations": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/storage/evaluations-cloudformation-template.json",
+        "logicalId": "storageevaluations"
+      },
+      "lastPushTimeStamp": "2021-04-02T23:13:39.946Z",
+      "output": {
+        "PartitionKeyName": "id",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:dynamodb:us-east-1:216209261533:table/evaluations-staging",
+        "StreamArn": "arn:aws:dynamodb:us-east-1:216209261533:table/evaluations-staging/stream/2021-04-02T23:12:49.350",
+        "PartitionKeyType": "S",
+        "Name": "evaluations-staging"
+      },
+      "lastPushDirHash": "dix3I10E1tK/mg+sgVSrZka8UZM="
     }
   },
   "auth": {
@@ -389,7 +443,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-f1tenthbackend-staging-233412-deployment/amplify-cfn-templates/auth/f1tenthbackend612b076d-cloudformation-template.yml",
         "logicalId": "authf1tenthbackend612b076d"
       },
-      "lastPushTimeStamp": "2021-03-29T20:52:33.811Z",
+      "lastPushTimeStamp": "2021-04-02T23:13:39.941Z",
       "output": {
         "UserPoolId": "us-east-1_42bGpdDBN",
         "AppClientIDWeb": "65gvoc6idc86cbma940slolk6e",

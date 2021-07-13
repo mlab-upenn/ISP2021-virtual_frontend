@@ -1,4 +1,5 @@
 import React from 'react';
+import { withAuthenticator, AmplifySignOut, AmplifyAuthenticator } from "@aws-amplify/ui-react";
 import Amplify, { API } from 'aws-amplify';
 
 import { Button, KIND, SHAPE, SIZE } from 'baseui/button';
@@ -13,7 +14,7 @@ import {
 import { Input, } from 'baseui/input';
 import { FormControl } from 'baseui/form-control';
 
-export default class extends React.Component {
+class LogIn extends React.Component {
 
   constructor(props) {
     super(props);
@@ -91,4 +92,7 @@ export default class extends React.Component {
 
     )
   }
-}
+};
+
+export default LogIn;
+//export default withAuthenticator(LogIn);

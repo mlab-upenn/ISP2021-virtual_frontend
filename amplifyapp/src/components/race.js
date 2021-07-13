@@ -4,6 +4,7 @@ import { Card, StyledBody } from 'baseui/card';
 import { Skeleton } from 'baseui/skeleton';
 import { Tabs, Tab, FILL } from 'baseui/tabs-motion';
 
+import Bracket from './bracket';
 import Qualifying from './qualifying';
 import RaceNow from './raceNow';
 
@@ -25,17 +26,7 @@ export default () => {
         <Qualifying />
       </Tab>
       <Tab title='Tournament'>
-        Tournament
-        <Card height='100%'>
-
-          <CenteredBody>
-            <Skeleton
-              height='300px'
-              width='80%'
-              animation
-            />
-          </CenteredBody>
-        </Card>
+        <Bracket />
       </Tab>
       <Tab title='Race Now'>
         <RaceNow />

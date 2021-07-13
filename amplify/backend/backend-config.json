@@ -127,6 +127,18 @@
     "maps": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
+    },
+    "images": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "users": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "evaluations": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   },
   "auth": {

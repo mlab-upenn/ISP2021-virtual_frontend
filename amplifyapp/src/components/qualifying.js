@@ -20,13 +20,13 @@ import { Input } from "baseui/input";
 import { DatePicker } from "baseui/datepicker";
 import Plus from "baseui/icon/plus";
 import Overflow from "baseui/icon/overflow"
-
-
 import {
   StyledTable,
   StyledHeadCell,
   StyledBodyCell,
 } from "baseui/table-grid";
+
+import  { API, Storage } from 'aws-amplify';
 
 const CenteredBody = withStyle(StyledBody, {
   display: "flex",
@@ -35,62 +35,6 @@ const CenteredBody = withStyle(StyledBody, {
   justifyContent: "center"
 })
 
-const TEAMS = [
-  {
-      "name": "Team 1",
-      "id": "1168bf01-018d-4150-b721-ff0b06b9710e"
-  },
-  {
-      "name": "Team 2",
-      "id": "6da0708c-2d7a-4394-80f6-ab08af95329c"
-  },
-  {
-      "name": "Team 3",
-      "id": "2eaf65c6-2d27-492f-8f94-782a834fd9ec"
-  },
-  {
-      "name": "Team 4",
-      "id": "92f5bf19-3cf4-4528-85ab-0f2dee3a156e"
-  },
-];
-const RACES = [
-  {
-    "is_done": true,
-    "team_1_id": "1168bf01-018d-4150-b721-ff0b06b9710e",
-    "team_2_id": "6da0708c-2d7a-4394-80f6-ab08af95329c",
-    "map_id": "1d0e2e47-c794-4330-94f3-c80073d403a4",
-    "time_1": "0:45",
-    "time_2": "0:53",
-    "video_link": "s3://something",
-  },
-  {
-    "is_done": true,
-    "team_1_id": "1168bf01-018d-4150-b721-ff0b06b9710e",
-    "team_2_id": "2eaf65c6-2d27-492f-8f94-782a834fd9ec",
-    "map_id": "1d0e2e47-c794-4330-94f3-c80073d403a4",
-    "time_1": "0:45",
-    "time_2": "0:40",
-    "video_link": "s3://something",
-  },
-  {
-    "is_done": true,
-    "team_1_id": "1168bf01-018d-4150-b721-ff0b06b9710e",
-    "team_2_id": "6da0708c-2d7a-4394-80f6-ab08af95329c",
-    "map_id": "1d0e2e47-c794-4330-94f3-c80073d403a4",
-    "time_1": "0:45",
-    "time_2": "0:53",
-    "video_link": "s3://something",
-  },
-  {
-    "is_done": false,
-    "team_1_id": "1168bf01-018d-4150-b721-ff0b06b9710e",
-    "team_2_id": "6da0708c-2d7a-4394-80f6-ab08af95329c",
-    "map_id": "1d0e2e47-c794-4330-94f3-c80073d403a4",
-    "time_1": null,
-    "time_2": null,
-    "video_link": null,
-  },
-];
 
 const InputRow = styled("div", {
   display: "flex",
@@ -138,116 +82,101 @@ const RaceItem = ({team, race, teamNameMap}) => {
     </FlexGridItem>);
 };
 
-export default () => {
-  const [css] = useStyletron();
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [scheduleDate, setScheduleDate] = React.useState([new Date]);
+export default class extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpen: false,
+      scheduleDate: new Date(),
+      races: [],
+      teamNameMap: {},
+      mapNameMap: {},
+    }
+  }
 
-  const futureRaces = RACES.filter(race => !race.is_done);
-  const teamNameMap = new Map(TEAMS.map(t => [t.id, t.name]));
-  console.log(scheduleDate)
-  return (
-    <Card>
-      <Modal
-        onClose={() => setModalOpen(false)}
-        closeable
-        isOpen={modalOpen}
-        animate>
-        <ModalHeader>Schedule Race</ModalHeader>
-        <ModalBody>
-          <FormControl label={() => "Team 1"}>
-            <Input />
-          </FormControl>
-          <FormControl label={() => "Team 2"}>
-            <Input />
-          </FormControl>
-          <FormControl label={() => "Map"}>
-            <Select />
-          </FormControl>
-          <FormControl label={() => "Match Date"}>
-            <DatePicker
-              value={scheduleDate}
-              onChange={({date}) => setScheduleDate(Array.isArray(date) ? date : [date])}
-              clearable
-              peekNextMonth
-              timeSelectStart
-              />
-          </FormControl>
-        </ModalBody>
-        <ModalFooter>
-          <ModalButton
-            kind={KIND.secondary}
-            size={SIZE.compact}
-            onClick={() => setModalOpen(false)}>Cancel</ModalButton>
-          <ModalButton kind={KIND.primary} size={SIZE.compact}>Add</ModalButton>
-        </ModalFooter>
-      </Modal>
-      <InputRow>
-        <p style={{display: "flex", fontWeight: "bold", alignItems: "center"}}>
-          Upcoming Races ({futureRaces.length})
-        </p>
-        <Button startEnhancer={Plus} onClick={() => setModalOpen(true)}>
-          Schedule
-        </Button>
-      </InputRow>
-      <StyledTable
-        role="grid"
-        $gridTemplateColumns="max-content max-content max-content auto max-content max-content">
-        <div role="row" className={css({display: "contents"})}>
-          <StyledHeadCell>Date</StyledHeadCell>
-          <StyledHeadCell>Team 1</StyledHeadCell>
-          <StyledHeadCell>Team 2</StyledHeadCell>
-          <StyledHeadCell>Map</StyledHeadCell>
-          <StyledHeadCell>Status</StyledHeadCell>
-          <StyledHeadCell>Edit</StyledHeadCell>
-        </div>
-        {futureRaces.map((race, index) => {
+  async componentDidMount() {
+    await API.get('f1tenth', '/races').then(races => this.setState({races: races}));
+    let teamList = [];
+    await API.get('f1tenth', '/teams').then(teams => teamList = teams);
+    this.setState({teamNameMap: new Map(teamList.map(t => [t.id, t]))});
+    let mapList = [];
+    await API.get('f1tenth', '/maps').then(maps => mapList = maps);
+    this.setState({mapNameMap: new Map(mapList.map(m => [m.id, m]))});
+  }
 
-          const striped = index % 2 == 0;
+  render() {
 
-          return (
-            <div role="row" key={index} className={css({display: "contents"})}>
-              <Cell $striped={striped}>
-                Jan 1, 1970 - 12:00pm
-              </Cell>
-              <Cell $striped={striped}>
-                {teamNameMap.get(race.team_1_id)}
-              </Cell>
-              <Cell $striped={striped}>
-                {teamNameMap.get(race.team_2_id)}
-              </Cell>
-              <Cell $striped={striped}>
-                <StyledLink href="/maps">Map 1</StyledLink>
-              </Cell>
-              <Cell $striped={striped}>
-                <Tag
-                  closeable={false}
-                  variant="outlined"
-                  kind={{
-                    "queued": "neutral",
-                    "running": "warning",
-                    "passed": "positive",
-                    "failed": "negative",
-                  }["queued"]}
-                  >
-                  {"queued"}
-                </Tag>
-              </Cell>
-              <Cell $striped={striped}>
-                <Button
-                  kind={KIND.minimal}
-                  startEnhancer={Overflow}
-                  onClick={() => setModalOpen(true)}
-                   />
-              </Cell>
+    const futureRaces = this.state.races.filter(race => !race.is_done);
+
+    return (
+      <Card>
+        <InputRow>
+          <p style={{display: "flex", fontWeight: "bold", alignItems: "center"}}>
+            Upcoming Races ({futureRaces.length})
+          </p>
+        </InputRow>
+        <StyledTable
+          role="grid"
+          $gridTemplateColumns="max-content max-content max-content auto max-content">
+          <div role="row" style={{display: "contents"}}>
+            <StyledHeadCell>Date</StyledHeadCell>
+            <StyledHeadCell>Team 1</StyledHeadCell>
+            <StyledHeadCell>Team 2</StyledHeadCell>
+            <StyledHeadCell>Map</StyledHeadCell>
+            <StyledHeadCell>Status</StyledHeadCell>
+          </div>
+          {futureRaces.map((race, index) => {
+
+            const striped = index % 2 == 0;
+
+            return (
+              <div role="row" key={index} style={{display: "contents"}}>
+                <Cell $striped={striped}>
+                  Jan 1, 1970 - 12:00pm
+                </Cell>
+                <Cell $striped={striped}>
+                  {
+                    this.state.teamNameMap.get ?
+                      this.state.teamNameMap.get(race.team_1_id).name : " "
+                  }
+                </Cell>
+                <Cell $striped={striped}>
+                  {
+                    this.state.teamNameMap.get ?
+                      this.state.teamNameMap.get(race.team_2_id).name : " "
+
+                  }
+                </Cell>
+                <Cell $striped={striped}>
+                  <StyledLink href="/maps">
+                    {
+                    this.state.teamNameMap.get && this.state.mapNameMap.get ?
+                      this.state.mapNameMap.get(race.map_id).name : " "
+                    }
+                  </StyledLink>
+                </Cell>
+                <Cell $striped={striped}>
+                  <Tag
+                    closeable={false}
+                    variant="outlined"
+                    kind={{
+                      "queued": "neutral",
+                      "running": "warning",
+                      "passed": "positive",
+                      "failed": "negative",
+                    }["queued"]}
+                    >
+                    {"queued"}
+                  </Tag>
+                </Cell>
+              </div>
+            )
+          })}
+        </StyledTable>
 
 
-            </div>
-          )
-        })}
-      </StyledTable>
+      </Card>
+    );
 
-
-    </Card>
-  );
-}
+  };
+};

@@ -27,6 +27,7 @@ import Teams from './components/teams';
 import Race from './components/race';
 import Maps from './components/maps';
 import LogIn from './components/logIn';
+import Stream from './components/stream';
 
 import f1logo from './f1_stickers_01.png';
 import './App.css';
@@ -68,17 +69,12 @@ const headers = [
   {
     link: "/maps", title: "Maps", component: <Maps />,
   },
+  {
+    link: "/stream", title: "Stream", component: <Stream />,
+  },
 ];
 
 export default function App() {
-
-
-  /*(async function () {
-    const response = await head();
-    console.log(response);
-    return response;
-  })();
-  */
 
   return (
     <StyletronProvider value={engine}>
@@ -97,7 +93,8 @@ export default function App() {
             <NavigationList />
             <NavigationList $align={ALIGN.right}>
               <NavigationItem>
-                <LogIn />
+                { //<LogIn />
+                }
               </NavigationItem>
               <NavigationItem>
                 <StyledLink href="https://f1tenth.org/index.html">
